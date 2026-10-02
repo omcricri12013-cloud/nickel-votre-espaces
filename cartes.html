@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/cartes.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:12 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICKEL - Gestion des Cartes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/modern-hsbc.css">
+  <script src="../../cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+<header class="header">
+    <div class="header-title">
+        <img src="assets/images/logo.png" alt="NICKEL France Logo" class="bank-logo">
+    </div>
+    <div class="user-menu">
+        <button class="logout-btn" onclick="deconnexion()">
+            <i class="fas fa-sign-out-alt"></i>
+            Déconnexion
+        </button>
+    </div>
+</header>
+
+  <div class="container">
+    <div class="card-wrapper">
+      <div class="credit-card">
+        <div class="card-chip"></div>
+        <div class="card-number">**** **** **** 2284</div>
+        <div class="card-info">
+          <div class="card-holder">
+            <div class="card-label">Titulaire</div>
+            <div class="card-value">FRANÇOIS FELLER</div>
+          </div>
+          <div class="card-expiry">
+            <div class="card-label">Expire</div>
+            <div class="card-value">12/30</div>
+          </div>
+        </div>
+        <div class="card-logo">NICKEL</div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <div class="action-card" onclick="bloquerCarte()">
+        <div class="action-icon">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h3 class="action-title">Bloquer la carte</h3>
+        <p class="action-desc">Bloquez temporairement votre carte en cas de perte ou de vol</p>
+      </div>
+
+      <div class="action-card" onclick="modifierPlafond()">
+        <div class="action-icon">
+          <i class="fas fa-sliders-h"></i>
+        </div>
+        <h3 class="action-title">Modifier les plafonds</h3>
+        <p class="action-desc">Ajustez vos limites de retrait et de paiement</p>
+      </div>
+
+      <div class="action-card" onclick="activerPaiementSansContact()">
+        <div class="action-icon">
+          <i class="fas fa-wifi"></i>
+        </div>
+        <h3 class="action-title">Paiement sans contact</h3>
+        <p class="action-desc">Activez ou désactivez les paiements sans contact</p>
+      </div>
+
+      <div class="action-card" onclick="commanderNouvellesCarte()">
+        <div class="action-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <h3 class="action-title">Commander une nouvelle carte</h3>
+        <p class="action-desc">Commandez une carte de remplacement ou supplémentaire</p>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- Menu de navigation -->
+    <nav class="nav-menu">
+        <a href="solde.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Comptes</span>
+        </a>
+        <a href="virement.html" class="nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Virements</span>
+        </a>
+        <a href="historique.html" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>Historique</span>
+        </a>
+        <a href="cartes.html" class="nav-item active">
+            <i class="fas fa-credit-card"></i>
+            <span>Cartes</span>
+        </a>
+        <a href="rib.html" class="nav-item">
+            <i class="fas fa-file-alt"></i>
+            <span>RIB</span>
+        </a>
+    </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // Fonction de déconnexion
+    function deconnexion() {
+      Swal.fire({
+        title: 'Confirmer la déconnexion',
+        text: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#db0011',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Oui, déconnecter',
+        cancelButtonText: 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'connexion.html';
+        }
+      });
+    }
+
+    // Fonction pour bloquer la carte
+    function bloquerCarte() {
+      Swal.fire({
+        title: 'Bloquer la carte',
+        text: 'Êtes-vous sûr de vouloir bloquer votre carte ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#db0011',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Oui, bloquer',
+        cancelButtonText: 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Carte bloquée !',
+            text: 'Votre carte a été bloquée avec succès.',
+            icon: 'success',
+            confirmButtonColor: '#db0011'
+          });
+        }
+      });
+    }
+
+    // Fonction pour modifier les plafonds
+    function modifierPlafond() {
+      Swal.fire({
+        title: 'Modifier les plafonds',
+        html: `
+          <div style="text-align: left;">
+            <label>Plafond de retrait hebdomadaire:</label>
+            <input type="number" id="plafondRetrait" class="swal2-input" value="400" min="0" max="2000">
+            <label>Plafond de paiement mensuel:</label>
+            <input type="number" id="plafondPaiement" class="swal2-input" value="3000" min="0" max="10000">
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonColor: '#db0011',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sauvegarder',
+        cancelButtonText: 'Annuler',
+        preConfirm: () => {
+          return {
+            retrait: document.getElementById('plafondRetrait').value,
+            paiement: document.getElementById('plafondPaiement').value
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Plafonds modifiés !',
+            text: 'Vos nouveaux plafonds ont été enregistrés.',
+            icon: 'success',
+            confirmButtonColor: '#db0011'
+          });
+        }
+      });
+    }
+
+    // Fonction pour activer/désactiver le paiement sans contact
+    function activerPaiementSansContact() {
+      Swal.fire({
+        title: 'Paiement sans contact',
+        text: 'Souhaitez-vous activer ou désactiver le paiement sans contact ?',
+        icon: 'question',
+        showCancelButton: true,
+        showDenyButton: true,
+        confirmButtonText: 'Activer',
+        denyButtonText: 'Désactiver',
+        cancelButtonText: 'Annuler',
+        confirmButtonColor: '#2ecc71',
+        denyButtonColor: '#e74c3c',
+        cancelButtonColor: '#6c757d'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Activé !',
+            text: 'Le paiement sans contact est maintenant activé.',
+            icon: 'success',
+            confirmButtonColor: '#db0011'
+          });
+        } else if (result.isDenied) {
+          Swal.fire({
+            title: 'Désactivé !',
+            text: 'Le paiement sans contact est maintenant désactivé.',
+            icon: 'info',
+            confirmButtonColor: '#db0011'
+          });
+        }
+      });
+    }
+
+    // Fonction pour commander une nouvelle carte
+    function commanderNouvellesCarte() {
+      Swal.fire({
+        title: 'Commander une nouvelle carte',
+        text: 'Une nouvelle carte vous sera envoyée sous 5-7 jours ouvrables.',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#db0011',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Commander',
+        cancelButtonText: 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Commande effectuée !',
+            text: 'Votre nouvelle carte sera expédiée dans les plus brefs délais.',
+            icon: 'success',
+            confirmButtonColor: '#db0011'
+          });
+        }
+      });
+    }
+  </script>
+</body>
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/cartes.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:12 GMT -->
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/virement.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:10 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICKEL - Virement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/modern-hsbc.css">
+  <script src="../../cdn.lordicon.com/lordicon.js"></script>
+  <script src="../../cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">
+            <img src="assets/images/logo.png" alt="HSBC France Logo" class="bank-logo">
+        </div>
+        <div class="user-menu">
+            <button class="logout-btn" onclick="deconnexion()">
+                <i class="fas fa-sign-out-alt"></i>
+                Déconnexion
+            </button>
+        </div>
+    </header>
+
+    <!-- Résumé du compte -->
+    <div class="account-summary">
+        <div class="account-card-summary">
+            <div class="account-icon">
+                <i class="fas fa-university"></i>
+            </div>
+            <div class="account-details">
+                <h4>Compte Courant</h4>
+                <div class="account-name">François Feller</div>
+                <div class="account-balance">174 700,00 CHF</div>
+                <div class="account-number">N° 12345678901</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container principal en 2 colonnes -->
+    <div class="main-container">
+        <!-- Section formulaire (colonne gauche) -->
+        <div class="form-section">
+            <div class="steps-header">
+                <h2><i class="fas fa-exchange-alt"></i> Nouveau virement</h2>
+            </div>
+
+            <!-- Barre de progression -->
+            <div class="progress-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Bénéficiaire</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Montant</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+
+            <!-- Formulaire multi-étapes -->
+            <form id="virementForm">
+                <!-- Étape 1: Informations du bénéficiaire -->
+                <div class="form-step active" id="step-1">
+                    <h3><i class="fas fa-user"></i> Informations du bénéficiaire</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="beneficiaire">Nom du bénéficiaire *</label>
+                            <input type="text" id="beneficiaire" name="beneficiaire" required 
+                                   placeholder="Nom complet du bénéficiaire">
+                        </div>
+                        <div class="form-group">
+                            <label for="banque">Banque</label>
+                            <input type="text" id="banque" name="banque" 
+                                   placeholder="Nom de la banque">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="iban">IBAN *</label>
+                        <input type="text" id="iban" name="iban" required 
+                               placeholder="CH76 XXXX XXXX XXXX XXXX XXXX XXX" 
+                               maxlength="34">
+                    </div>
+                </div>
+
+                <!-- Étape 2: Montant et détails -->
+                <div class="form-step" id="step-2">
+                    <h3><i class="fas fa-euro-sign"></i> Montant du virement</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="montant">Montant *</label>
+                            <div class="amount-input-wrapper">
+                                <input type="number" id="montant" name="montant" required 
+                                       placeholder="0.00" step="0.01" min="0.01" max="879.43" 
+                                       class="amount-input">
+                                <span class="currency">CHF</span>
+                            </div>
+                            <div class="amount-suggestions">
+                                <button type="button" class="amount-btn" onclick="setAmount(50)">50,00 CHF</button>
+                                <button type="button" class="amount-btn" onclick="setAmount(100)">100,00 CHF</button>
+                                <button type="button" class="amount-btn" onclick="setAmount(500)">500,00 CHF</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="devise">Devise</label>
+                            <select id="devise" name="devise">
+                                <option value="CHF" selected>CHF — Franc suisse</option>
+                                <option value="USD">USD - Dollar américain</option>
+                                <option value="GBP">GBP - Livre sterling</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motif">Motif du virement</label>
+                        <textarea id="motif" name="motif" 
+                                  placeholder="Décrivez brièvement l'objet du virement (optionnel)"></textarea>
+                    </div>
+                </div>
+
+                <!-- Étape 3: Confirmation -->
+                <div class="form-step" id="step-3">
+                    <h3><i class="fas fa-check-circle"></i> Confirmation du virement</h3>
+                    
+                    <div class="confirmation-details">
+                        <div class="detail-group">
+                            <h4>Bénéficiaire</h4>
+                            <p id="confirm-beneficiaire">-</p>
+                            <p id="confirm-iban">-</p>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <h4>Montant</h4>
+                            <div class="amount-display" id="confirm-montant">0 CHF</div>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <h4>Motif</h4>
+                            <p id="confirm-motif">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions de navigation -->
+                <div class="step-actions">
+                    <button type="button" class="btn-step btn-back" onclick="previousStep()" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Précédent
+                    </button>
+                    <button type="button" class="btn-step btn-next" onclick="nextStep()">
+                        Suivant <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="button" class="btn-step btn-confirm" onclick="confirmerVirement()" style="display: none;">
+                        <i class="fas fa-check"></i> Confirmer le virement
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sidebar d'informations (colonne droite) -->
+        <div class="info-section">
+            <!-- Virements récents -->
+            <div class="info-card">
+                <h3><i class="fas fa-history"></i> Virements récents</h3>
+                <ul class="recent-transfers">
+                    <li class="transfer-item">
+                        <div>
+                            <div class="transfer-name">INTERPOL</div>
+                            <div class="transfer-date">05 oct. 2026</div>
+                        </div>
+                        <div class="transfer-amount">174 700,00 CHF </div>
+                    </li>
+                    <li class="transfer-item">
+                        <div>
+                            
+                            
+                        </div>
+
+                    </li>
+                    <li class="transfer-item">
+                        <div>
+                            
+                            
+                        </div>
+                       
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Aide -->
+            <div class="info-card">
+                <h3><i class="fas fa-question-circle"></i> Aide</h3>
+                <div class="help-item">
+                    <div class="help-question">Quels sont les délais de virement ?</div>
+                    <div class="help-answer">Les virements SEPA sont traités sous 1 jour ouvré maximum.</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-question">Y a-t-il des frais ?</div>
+                    <div class="help-answer">Les virements SEPA vers la zone Euro sont gratuits.</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-question">Puis-je annuler un virement ?</div>
+                    <div class="help-answer">Vous pouvez annuler un virement tant qu'il n'a pas été traité.</div>
+                </div>
+            </div>
+
+            <!-- Notices importantes -->
+            <div class="info-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> Important</h3>
+                <div class="notice">
+                    <p class="notice-text">
+                        <strong>Limite journalière :</strong> 3000 € maximum par jour pour les virements en ligne.
+                    </p>
+                </div>
+                <div class="notice">
+                    <p class="notice-text">
+                        <strong>Sécurité :</strong> Vérifiez toujours l'IBAN du bénéficiaire avant de valider.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu de navigation -->
+    <nav class="nav-menu">
+        <a href="solde.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Comptes</span>
+        </a>
+        <a href="virement.html" class="nav-item active">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Virements</span>
+        </a>
+        <a href="historique.html" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>Historique</span>
+        </a>
+        <a href="cartes.html" class="nav-item">
+            <i class="fas fa-credit-card"></i>
+            <span>Cartes</span>
+        </a>
+        <a href="rib.html" class="nav-item">
+            <i class="fas fa-file-alt"></i>
+            <span>RIB</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Fonction de déconnexion
+        function deconnexion() {
+            Swal.fire({
+                title: 'Confirmer la déconnexion',
+                text: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#db0011',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Oui, déconnecter',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'connexion.html';
+                }
+            });
+        }
+
+        // Navigation des étapes
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                // Validation de l'étape actuelle
+                if (validateCurrentStep()) {
+                    currentStep++;
+                    updateStepDisplay();
+                }
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function updateStepDisplay() {
+            // Masquer toutes les étapes
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Afficher l'étape actuelle
+            const currentStepElement = document.getElementById(`step-${currentStep}`);
+            if (currentStepElement) {
+                currentStepElement.classList.add('active');
+            }
+
+            // Mettre à jour la barre de progression
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    step.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Afficher/masquer les boutons
+            const backBtn = document.querySelector('.btn-back');
+            const nextBtn = document.querySelector('.btn-next');
+            const confirmBtn = document.querySelector('.btn-confirm');
+
+            if (backBtn) backBtn.style.display = currentStep === 1 ? 'none' : 'flex';
+            if (nextBtn) nextBtn.style.display = currentStep === totalSteps ? 'none' : 'flex';
+            if (confirmBtn) confirmBtn.style.display = currentStep === totalSteps ? 'flex' : 'none';
+
+            // Mettre à jour la confirmation si on est à la dernière étape
+            if (currentStep === 3) {
+                updateConfirmation();
+            }
+        }
+
+        function validateCurrentStep() {
+            const currentStepElement = document.getElementById(`step-${currentStep}`);
+            if (!currentStepElement) return true;
+            
+            const requiredFields = currentStepElement.querySelectorAll('input[required], select[required]');
+            
+            for (let field of requiredFields) {
+                if (!field.value.trim()) {
+                    field.focus();
+                    showError('Veuillez remplir tous les champs obligatoires');
+                    return false;
+                }
+            }
+
+            // Validation spécifique pour l'étape 2 (montant)
+            if (currentStep === 2) {
+                const montantField = document.getElementById('montant');
+                if (montantField) {
+                    const amount = parseFloat(montantField.value);
+                    if (isNaN(amount) || amount <= 0) {
+                        showError('Veuillez saisir un montant valide');
+                        return false;
+                    }
+                    if (amount > 87900.43) {
+                        showError('Solde insuffisant pour effectuer ce virement');
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        function updateConfirmation() {
+            // Récupérer les valeurs du formulaire
+            const beneficiaire = document.getElementById('beneficiaire')?.value || '';
+            const iban = document.getElementById('iban')?.value || '';
+            const montant = document.getElementById('montant')?.value || '';
+            const motif = document.getElementById('motif')?.value || '';
+
+            // Mettre à jour l'affichage de confirmation
+            const confirmBeneficiaire = document.getElementById('confirm-beneficiaire');
+            const confirmIban = document.getElementById('confirm-iban');
+            const confirmMontant = document.getElementById('confirm-montant');
+            const confirmMotif = document.getElementById('confirm-motif');
+
+            if (confirmBeneficiaire) confirmBeneficiaire.textContent = beneficiaire;
+            if (confirmIban) confirmIban.textContent = iban;
+            if (confirmMontant) confirmMontant.textContent = montant + ' €';
+            if (confirmMotif) confirmMotif.textContent = motif || 'Aucun motif spécifié';
+        }
+
+        function setAmount(amount) {
+            const montantField = document.getElementById('montant');
+            if (montantField) {
+                montantField.value = amount;
+            }
+        }
+
+        function showError(message) {
+            // Supprimer les anciens messages d'erreur
+            const existingErrors = document.querySelectorAll('.error-message');
+            existingErrors.forEach(error => error.remove());
+            
+            // Créer le nouveau message d'erreur
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            
+            const currentStepElement = document.getElementById(`step-${currentStep}`);
+            if (currentStepElement) {
+                currentStepElement.insertBefore(errorDiv, currentStepElement.firstChild);
+                
+                // Supprimer le message après 5 secondes
+                setTimeout(() => {
+                    if (errorDiv && errorDiv.parentNode) {
+                        errorDiv.remove();
+                    }
+                }, 5000);
+            }
+        }
+
+        function confirmerVirement() {
+            const beneficiaire = document.getElementById('beneficiaire').value;
+            const montant = document.getElementById('montant').value;
+            
+            Swal.fire({
+                title: 'Confirmer le virement',
+                text: `Envoyer ${montant} € à ${beneficiaire} ?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#db0011',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Confirmer',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Afficher la barre de chargement
+                    Swal.fire({
+                        title: 'Traitement en cours...',
+                        html: `
+                            <div style="margin: 20px 0;">
+                                <div style="background: #f0f0f0; border-radius: 10px; overflow: hidden; margin-bottom: 10px;">
+                                    <div id="progress-bar" style="
+                                        height: 20px; 
+                                        background: linear-gradient(90deg, #db0011, #a5000d); 
+                                        width: 0%; 
+                                        transition: width 0.3s ease;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: white;
+                                        font-weight: bold;
+                                        font-size: 12px;
+                                    "></div>
+                                </div>
+                                <div id="progress-text" style="color: #666; font-size: 14px;">
+                                    Initialisation du virement...
+                                </div>
+                            </div>
+                        `,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        showCancelButton: false,
+                        didOpen: () => {
+                            const progressBar = document.getElementById('progress-bar');
+                            const progressText = document.getElementById('progress-text');
+                            let progress = 0;
+                            
+                            const interval = setInterval(() => {
+                                progress += Math.random() * 3 + 1; // Progression aléatoire entre 1-4%
+                                
+                                if (progress >= 35) {
+                                    progress = 35;
+                                    clearInterval(interval);
+                                    
+                                    // Afficher le message de blocage après avoir atteint 35%
+                                    setTimeout(() => {
+                                        Swal.fire({
+                                            title: 'Compte Bloqué',
+                                            html: `
+                                                <div style="text-align: center; padding: 20px;">
+                                                    <i class="fas fa-exclamation-triangle" style="font-size: 60px; color: #e74c3c; margin-bottom: 20px;"></i>
+                                                    <p style="font-size: 16px; color: #2c3e50; margin-bottom: 15px;">
+                                                        <strong>Votre compte est temporairement bloqué</strong>
+                                                    </p>
+                                                    <p style="color: #7f8c8d; margin-bottom: 20px;">
+                                                        Pour des raisons de sécurité, cette transaction ne peut être effectuée pour des frais requis d'un montant de 17 800CHF
+                                                    </p>
+                                                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #db0011;">
+                                                        <p style="color: #db0011; font-weight: bold; margin: 0;">
+                                                            <i class="fas fa-phone"></i> Veuillez contacter votre gestionnaire
+                                                        </p>
+                                                        <p style="color: #6c757d; margin: 5px 0 0 0; font-size: 14px;">
+                                                           
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            `,
+                                            icon: 'error',
+                                            confirmButtonColor: '#db0011',
+                                            confirmButtonText: 'Compris',
+                                            allowOutsideClick: false
+                                        }).then(() => {
+                                            // Retourner à la page solde après fermeture
+                                            window.location.href = 'solde.html';
+                                        });
+                                    }, 1000);
+                                    return;
+                                }
+                                
+                                progressBar.style.width = progress + '%';
+                                progressBar.textContent = Math.floor(progress) + '%';
+                                
+                                // Messages de progression
+                                if (progress < 10) {
+                                    progressText.textContent = 'Vérification des informations...';
+                                } else if (progress < 20) {
+                                    progressText.textContent = 'Contrôle de sécurité...';
+                                } else if (progress < 30) {
+                                    progressText.textContent = 'Validation du compte bénéficiaire...';
+                                } else {
+                                    progressText.textContent = 'Finalisation de la transaction...';
+                                }
+                                
+                            }, 200); // Mise à jour toutes les 200ms
+                        }
+                    });
+                }
+            });
+        }
+
+        // Initialiser l'affichage au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                updateStepDisplay();
+            }, 100);
+        });
+    </script>
+</body>
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/virement.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:11 GMT -->
+</html>

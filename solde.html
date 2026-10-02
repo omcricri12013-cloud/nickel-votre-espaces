@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/solde.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:05 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICKEL - Espace Client</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/modern-hsbc.css">
+  <script src="../../cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.js"></script>
+  <style>
+:root {
+ --primary-color: #db0011;      /* Rouge principal HSBC */
+ --secondary-color: #a5000d;    /* Rouge foncé HSBC */
+ --accent-color: #ff1428;       /* Rouge vif pour les accents */
+ --success-color: #2ecc71;      /* Vert pour succès */
+ --danger-color: #e74c3c;       /* Rouge vif pour erreurs */
+ --background-color: #f4f6f7;   /* Gris très clair en arrière-plan */
+ --card-background: #ffffff;    /* Blanc pur */
+ --text-primary: #2c3e50;       /* Bleu-gris foncé pour le texte principal */
+ --text-secondary: #7f8c8d;     /* Gris doux pour le texte secondaire */
+ --border-radius: 0.25rem;      /* Coins légèrement arrondis */
+ --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Main Content */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Profile Card */
+.profile-card {
+  background: var(--card-background);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+  grid-column: 1 / -1;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.profile-info h2 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.balance-info {
+  text-align: right;
+}
+
+.total-balance {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.balance-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Account Cards */
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  grid-column: 1 / -1;
+  margin-bottom: 2rem;
+}
+
+.account-card {
+  background: var(--card-background);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.account-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+.balance {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.positive {
+  color: var(--success-color);
+}
+
+.negative {
+  color: var(--danger-color);
+}
+
+.card-details {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Charts Container */
+.charts-container {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.chart-card {
+  background: var(--card-background);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chart-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .balance-info {
+    text-align: center;
+  }
+  
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-title">
+      <img src="assets/images/logo.png" alt="HSBC France Logo" class="bank-logo">
+    </div>
+    <div class="user-menu">
+      <button class="logout-btn" onclick="deconnexion()">
+        <i class="fas fa-sign-out-alt"></i>
+        Déconnexion
+      </button>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-info">
+          <h2>FRANÇOIS FELLER</h2>
+          <div class="location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Bulle, Suisse</span>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+            Gestionnaire: <span style="color: var(--accent-color)">Jean Claude Bezuchet</span>
+          </p>
+          <p style="color: var(--text-secondary);" id="lastConnection">
+            Dernière connexion: <span></span>
+          </p>
+        </div>
+        <div class="balance-info">
+          <div class="total-balance">174 700,00 CHF</div>
+          <div class="balance-label">Patrimoine total</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="account-grid">
+      <div class="account-card">
+        <div class="card-header">
+          <h3 class="card-title">Compte Courant</h3>
+          <i class="fas fa-credit-card card-icon"></i>
+        </div>
+        <div class="balance positive">0,00 €</div>
+        <div class="card-details">N° **** **** **** 1234</div>
+      </div>
+
+      <div class="account-card">
+        <div class="card-header">
+          <h3 class="card-title">Épargne Livret A</h3>
+          <i class="fas fa-piggy-bank card-icon"></i>
+        </div>
+        <div class="balance positive">0,00 €</div>
+        <div class="card-details">Taux: 3,00% par an</div>
+      </div>
+
+      <div class="account-card">
+        <div class="card-header">
+          <h3 class="card-title">Assurance Vie</h3>
+          <i class="fas fa-shield-alt card-icon"></i>
+        </div>
+        <div class="balance positive">0,00 €</div>
+        <div class="card-details">Rendement: +4,2% cette année</div>
+      </div>
+
+      <div class="account-card">
+        <div class="card-header">
+          <h3 class="card-title">Prêt Immobilier</h3>
+          <i class="fas fa-home card-icon"></i>
+        </div>
+        <div class="balance negative">0,00 €</div>
+        <div class="card-details">Échéance: 24 mois restants</div>
+      </div>
+    </div>
+
+    <div class="charts-container">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Évolution des comptes</h3>
+        </div>
+        <div class="chart-container">
+          <canvas id="balanceChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Répartition du patrimoine</h3>
+        </div>
+        <div class="chart-container">
+          <canvas id="distributionChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Menu de navigation -->
+  <nav class="nav-menu">
+      <a href="solde.html" class="nav-item active">
+          <i class="fas fa-chart-line"></i>
+          <span>Comptes</span>
+      </a>
+      <a href="virement.html" class="nav-item">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Virements</span>
+      </a>
+      <a href="historique.html" class="nav-item">
+          <i class="fas fa-history"></i>
+          <span>Historique</span>
+      </a>
+      <a href="cartes.html" class="nav-item">
+          <i class="fas fa-credit-card"></i>
+          <span>Cartes</span>
+      </a>
+      <a href="rib.html" class="nav-item">
+          <i class="fas fa-file-alt"></i>
+          <span>RIB</span>
+      </a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // Fonction de déconnexion
+    function deconnexion() {
+      Swal.fire({
+        title: 'Confirmer la déconnexion',
+        text: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#db0011',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Oui, déconnecter',
+        cancelButtonText: 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'connexion.html';
+        }
+      });
+    }
+
+    // Mise à jour de la date de dernière connexion
+    const updateLastConnection = () => {
+      const now = new Date();
+      const options = { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      document.querySelector('#lastConnection span').textContent = 
+        now.toLocaleDateString('fr-FR', options);
+    };
+    updateLastConnection();
+
+    // Configuration du graphique d'évolution des comptes
+    const balanceCtx = document.getElementById('balanceChart').getContext('2d');
+    const balanceChart = new Chart(balanceCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+        datasets: [{
+          label: 'Solde du compte',
+          data: [1200, 950, 1100, 1050, 950, 879],
+          borderColor: '#db0011',
+          backgroundColor: 'rgba(219, 0, 17, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              callback: function(value) {
+                return value + ' €';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Configuration du graphique de répartition
+    const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+    const distributionChart = new Chart(distributionCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Assurance Vie', 'Épargne', 'Compte Courant'],
+        datasets: [{
+          data: [427020, 25000, 879],
+          backgroundColor: [
+            '#db0011',
+            '#ff1428',
+            '#a5000d'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 20,
+              usePointStyle: true
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/solde.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:10 GMT -->
+</html>

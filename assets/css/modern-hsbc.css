@@ -1,0 +1,1725 @@
+/* HSBC Modern Design System - Améliorations globales */
+
+/* Reset et polices globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-bottom: 70px;
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(219, 0, 17, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(165, 0, 13, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Variables HSBC étendues */
+:root {
+  --hsbc-red: #db0011;
+  --hsbc-dark-red: #a5000d;
+  --hsbc-light-red: #ff1428;
+  --hsbc-gradient: linear-gradient(135deg, #db0011 0%, #a5000d 100%);
+  --hsbc-shadow: 0 4px 20px rgba(219, 0, 17, 0.15);
+  --hsbc-shadow-heavy: 0 8px 40px rgba(219, 0, 17, 0.25);
+  
+  /* Animations et transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Glass morphism */
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(20px);
+  
+  /* Spacing moderne */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  /* Border radius moderne */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+/* Animations globales */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Classes utilitaires */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--hsbc-shadow);
+}
+
+.hsbc-button {
+  background: var(--hsbc-gradient);
+  color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--hsbc-shadow);
+}
+
+.hsbc-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.hsbc-button:hover::before {
+  left: 100%;
+}
+
+.hsbc-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--hsbc-shadow-heavy);
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-in-delay {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.hover-lift {
+  transition: var(--transition-normal);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hsbc-shadow-heavy);
+}
+
+/* NAVIGATION MODERNE */
+.modern-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--hsbc-shadow);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: var(--hsbc-red);
+  text-decoration: none;
+}
+
+.nav-logo {
+  height: 40px;
+  width: auto;
+}
+
+.nav-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: var(--transition-normal);
+  position: relative;
+}
+
+.nav-link:hover {
+  background: rgba(219, 0, 17, 0.1);
+  color: var(--hsbc-red);
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: var(--hsbc-gradient);
+  color: white;
+  box-shadow: var(--hsbc-shadow);
+}
+
+.nav-link.logout-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.nav-link i {
+  font-size: 1.1rem;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.nav-toggle span {
+  width: 25px;
+  height: 3px;
+  background: var(--hsbc-red);
+  border-radius: 2px;
+  transition: var(--transition-normal);
+}
+
+.nav-toggle.active span:first-child {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:last-child {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+  /* Force la navbar à rester horizontale en bas comme desktop */
+  .nav-menu {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 0.75rem 0 !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(15px) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08) !important;
+    z-index: 1000 !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  /* Items navbar horizontaux */
+  .nav-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    color: #666 !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+    min-width: 50px !important;
+  }
+
+  .nav-item i {
+    font-size: 1.2rem !important;
+    color: #666 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .nav-item span {
+    font-size: 0.7rem !important;
+    font-weight: 500 !important;
+    color: #666 !important;
+    text-align: center !important;
+  }
+
+  /* État actif */
+  .nav-item.active {
+    color: var(--hsbc-red) !important;
+  }
+
+  .nav-item.active i {
+    color: var(--hsbc-red) !important;
+  }
+
+  .nav-item.active span {
+    color: var(--hsbc-red) !important;
+  }
+
+  .nav-item.active::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -0.75rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 20px !important;
+    height: 3px !important;
+    background: var(--hsbc-red) !important;
+    border-radius: 0 0 3px 3px !important;
+  }
+
+  /* Effet hover */
+  .nav-item:hover {
+    color: var(--hsbc-red) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .nav-item:hover i,
+  .nav-item:hover span {
+    color: var(--hsbc-red) !important;
+  }
+
+  /* Cacher les éléments qui ne doivent pas apparaître en mobile */
+  .nav-toggle {
+    display: none !important;
+  }
+
+  /* S'assurer que le contenu ne passe pas sous la navbar */
+  body {
+    padding-bottom: 80px !important;
+  }
+
+  /* Masquer les informations qui pourraient interférer sur mobile */
+  .profile-card {
+    margin-bottom: 1rem !important;
+  }
+
+  /* Réduire l'espacement des cartes sur mobile */
+  .main-container {
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+}
+
+/* Améliorations des formulaires */
+.modern-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  transition: var(--transition-normal);
+}
+
+.modern-input:focus {
+  outline: none;
+  border-color: var(--hsbc-red);
+  box-shadow: 0 0 0 4px rgba(219, 0, 17, 0.1);
+  background: white;
+  transform: translateY(-1px);
+}
+
+/* Cards modernes */
+.modern-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--hsbc-shadow);
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--hsbc-gradient);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.modern-card:hover::before {
+  transform: scaleX(1);
+}
+
+.modern-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--hsbc-shadow-heavy);
+}
+
+/* Badges et statuts */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.success {
+  background: rgba(72, 187, 120, 0.1);
+  color: #2d7d32;
+}
+
+.status-badge.warning {
+  background: rgba(251, 146, 60, 0.1);
+  color: #f57c00;
+}
+
+.status-badge.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #d32f2f;
+}
+
+/* Navigation améliorée */
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition-normal);
+  position: relative;
+}
+
+.nav-item:hover {
+  background: rgba(219, 0, 17, 0.05);
+  color: var(--hsbc-red);
+  transform: translateX(4px);
+}
+
+.nav-item.active {
+  background: rgba(219, 0, 17, 0.1);
+  color: var(--hsbc-red);
+  font-weight: 600;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: var(--hsbc-red);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Responsive amélioré */
+@media (max-width: 768px) {
+  .glass-card {
+    margin: var(--spacing-sm);
+    border-radius: var(--radius-md);
+  }
+  
+  .hsbc-button {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .modern-card {
+    padding: var(--spacing-md);
+  }
+}
+
+/* STYLES SPÉCIFIQUES POUR LA PAGE VIREMENT */
+
+/* Variables spécifiques */
+:root {
+  --primary-color: #db0011;
+  --secondary-color: #a5000d;
+  --accent-color: #ff1428;
+  --success-color: #2ecc71;
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --border-color: #bdc3c7;
+}
+
+/* Layout principal en 2 colonnes */
+.account-summary {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.account-card-summary {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--hsbc-shadow);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.account-card-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--hsbc-gradient);
+}
+
+.account-icon {
+  flex-shrink: 0;
+  font-size: 2.5rem;
+  color: var(--hsbc-red);
+}
+
+.account-details h4 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.account-name {
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.account-balance {
+  color: var(--hsbc-red);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.account-number {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Section formulaire */
+.form-section {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--hsbc-shadow-heavy);
+  border: 1px solid var(--glass-border);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.steps-header h2 {
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.steps-header h2 i {
+  color: var(--hsbc-red);
+}
+
+/* Barre de progression */
+.progress-steps {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: #e2e8f0;
+  z-index: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: var(--transition-normal);
+}
+
+.step.active .step-number {
+  background: var(--hsbc-red);
+  color: white;
+  transform: scale(1.1);
+}
+
+.step.completed .step-number {
+  background: var(--success-color);
+  color: white;
+}
+
+.step-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+
+.step.active .step-label {
+  color: var(--hsbc-red);
+  font-weight: 600;
+}
+
+/* Étapes du formulaire */
+.form-step {
+  display: none;
+  animation: fadeInRight 0.5s ease-out;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.form-step h3 {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(219, 0, 17, 0.1);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.form-step h3 i {
+  color: var(--hsbc-red);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid rgba(219, 0, 17, 0.1);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  transition: var(--transition-normal);
+  box-sizing: border-box;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--hsbc-red);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(219, 0, 17, 0.1);
+  transform: translateY(-2px);
+}
+
+.amount-input-wrapper {
+  position: relative;
+}
+
+.amount-input {
+  padding-right: 2rem !important;
+}
+
+.currency {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.amount-suggestions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.amount-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--hsbc-red);
+  background: transparent;
+  color: var(--hsbc-red);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.amount-btn:hover {
+  background: var(--hsbc-red);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Actions des étapes */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(219, 0, 17, 0.1);
+}
+
+.btn-step {
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.btn-next, .btn-confirm {
+  background: var(--hsbc-gradient);
+  color: white;
+  box-shadow: var(--hsbc-shadow);
+}
+
+.btn-next:hover, .btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--hsbc-shadow-heavy);
+}
+
+.btn-back {
+  background: #6b7280;
+  color: white;
+}
+
+.btn-back:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+/* Confirmation */
+.confirmation-details {
+  background: rgba(219, 0, 17, 0.05);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(219, 0, 17, 0.1);
+}
+
+.detail-group {
+  margin-bottom: 1.5rem;
+}
+
+.detail-group:last-child {
+  margin-bottom: 0;
+}
+
+.detail-group h4 {
+  color: var(--hsbc-red);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.amount-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hsbc-red);
+}
+
+/* Sidebar d'informations */
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--hsbc-shadow);
+  border: 1px solid var(--glass-border);
+  animation: fadeInUp 0.7s ease-out;
+}
+
+.info-card h3 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.info-card h3 i {
+  color: var(--hsbc-red);
+}
+
+.recent-transfers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transfer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(219, 0, 17, 0.1);
+}
+
+.transfer-item:last-child {
+  border-bottom: none;
+}
+
+.transfer-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.transfer-date {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.transfer-amount {
+  color: var(--hsbc-red);
+  font-weight: 600;
+}
+
+.help-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(219, 0, 17, 0.1);
+}
+
+.help-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.help-question {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.help-answer {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.notice {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+}
+
+.notice:last-child {
+  margin-bottom: 0;
+}
+
+.notice-text {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.notice strong {
+  color: #b8860b;
+}
+
+/* Messages d'erreur */
+.error-message {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+  border-left: 4px solid #dc3545;
+  font-size: 0.9rem;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Header styles */
+.header {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--hsbc-shadow);
+  border-bottom: 1px solid rgba(219, 0, 17, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+}
+
+.bank-logo {
+  height: 40px;
+  width: auto;
+}
+
+.logout-btn {
+  background: var(--hsbc-gradient);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-normal);
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--hsbc-shadow);
+}
+
+/* Menu de navigation - Force le style sur tous les appareils */
+.nav-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(219, 0, 17, 0.1);
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: var(--transition-normal);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.nav-item.active,
+.nav-item:hover {
+  color: var(--hsbc-red);
+  transform: translateY(-2px);
+}
+
+.nav-item i {
+  font-size: 1.2rem;
+  transition: var(--transition-normal);
+}
+
+.nav-item span {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.nav-item.active i {
+  color: var(--hsbc-red);
+}
+
+/* STYLES SPÉCIFIQUES POUR LA PAGE CARTES */
+
+/* Container principal */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Wrapper de carte */
+.card-wrapper {
+  perspective: 1000px;
+  margin-bottom: 2rem;
+}
+
+/* Carte de crédit */
+.credit-card {
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
+  background: var(--hsbc-gradient);
+  border-radius: 15px;
+  padding: 1.5rem;
+  color: white;
+  position: relative;
+  margin: 0 auto;
+  box-shadow: var(--hsbc-shadow-heavy);
+  transition: var(--transition-normal);
+}
+
+.credit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(219, 0, 17, 0.3);
+}
+
+.card-chip {
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.card-number {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 1.5rem;
+  font-family: 'Courier New', monospace;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+}
+
+.card-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.card-logo {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+/* Actions de carte */
+.card-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.action-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--hsbc-shadow);
+  border: 1px solid var(--glass-border);
+  text-align: center;
+  transition: var(--transition-normal);
+  cursor: pointer;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--hsbc-shadow-heavy);
+}
+
+.action-icon {
+  font-size: 2rem;
+  color: var(--hsbc-red);
+  margin-bottom: 1rem;
+}
+
+.action-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.action-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Transactions */
+.transactions {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--hsbc-shadow);
+  border: 1px solid var(--glass-border);
+}
+
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.transaction-header h3 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+}
+
+.transaction-item:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(5px);
+}
+
+.transaction-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.transaction-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--hsbc-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.transaction-details h4 {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.transaction-details p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.amount {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.amount.negative {
+  color: var(--danger-color);
+}
+
+.amount.positive {
+  color: var(--success-color);
+}
+
+/* STYLES SPÉCIFIQUES POUR LA PAGE HISTORIQUE */
+
+/* Container principal historique */
+.history-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* En-tête avec statistiques */
+.history-header {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--hsbc-shadow-heavy);
+  border: 1px solid var(--glass-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.history-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--hsbc-gradient);
+}
+
+.history-title {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.history-title i {
+  color: var(--hsbc-red);
+}
+
+.history-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: var(--transition-normal);
+}
+
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value.positive {
+  color: var(--success-color);
+}
+
+.stat-value.negative {
+  color: var(--danger-color);
+}
+
+.stat-value.neutral {
+  color: var(--hsbc-red);
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Filtres */
+.history-filters {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--hsbc-shadow);
+  border: 1px solid var(--glass-border);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.filter-select, .filter-input {
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(219, 0, 17, 0.1);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  transition: var(--transition-normal);
+}
+
+.filter-select:focus, .filter-input:focus {
+  outline: none;
+  border-color: var(--hsbc-red);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(219, 0, 17, 0.1);
+}
+
+.filter-button {
+  background: var(--hsbc-gradient);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.filter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--hsbc-shadow);
+}
+
+/* Liste des transactions */
+.transactions-list {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--hsbc-shadow);
+  border: 1px solid var(--glass-border);
+}
+
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(219, 0, 17, 0.1);
+}
+
+.transactions-count {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.transaction-card {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: var(--transition-normal);
+  border-left: 4px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.transaction-card:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(5px);
+  box-shadow: var(--hsbc-shadow);
+}
+
+.transaction-card.credit {
+  border-left-color: var(--success-color);
+}
+
+.transaction-card.debit {
+  border-left-color: var(--danger-color);
+}
+
+.transaction-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.transaction-type {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.transaction-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.transaction-icon.credit {
+  background: var(--success-color);
+}
+
+.transaction-icon.debit {
+  background: var(--danger-color);
+}
+
+.transaction-reference {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 0.25rem;
+}
+
+.transaction-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.transaction-amount {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.transaction-amount.credit {
+  color: var(--success-color);
+}
+
+.transaction-amount.debit {
+  color: var(--danger-color);
+}
+
+.transaction-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.transaction-status.completed {
+  background: rgba(46, 204, 113, 0.2);
+  color: var(--success-color);
+}
+
+.transaction-status.pending {
+  background: rgba(243, 156, 18, 0.2);
+  color: #f39c12;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--hsbc-red);
+  background: transparent;
+  color: var(--hsbc-red);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.pagination-btn:hover, .pagination-btn.active {
+  background: var(--hsbc-red);
+  color: white;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive pour cartes */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .credit-card {
+    max-width: 100%;
+    height: 200px;
+    padding: 1rem;
+  }
+  
+  .card-number {
+    font-size: 1.2rem;
+  }
+  
+  .card-actions {
+    grid-template-columns: 1fr;
+  }
+  
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .amount {
+    align-self: flex-end;
+  }
+}
+
+/* Responsive pour historique */
+@media (max-width: 768px) {
+  .history-container {
+    padding: 0 1rem;
+  }
+  
+  .history-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .transaction-main {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .transaction-amount {
+    text-align: left;
+  }
+  
+  .transactions-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+/* Responsive pour virement */
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .account-card-summary {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .account-summary, .main-container {
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
+  
+  .form-section, .info-card {
+    padding: 1.5rem;
+  }
+  
+  .progress-steps {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .progress-steps::before {
+    display: none;
+  }
+  
+  .step-actions {
+    flex-direction: column;
+  }
+  
+  .btn-step {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .amount-suggestions {
+    justify-content: center;
+  }
+}

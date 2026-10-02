@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/historique.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:11 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Transactions | NICKEL</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="assets/css/modern-hsbc.css">
+    
+    <!-- Styles pour le header BNP Paribas -->
+    <style>
+        /* Header BNP Paribas */
+        .bnp-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #dee2e6;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+       .header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(219, 0, 17, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+}
+
+.bank-logo {
+  height: 45px;
+  width: auto;
+  filter: drop-shadow(0 2px 8px rgba(219, 0, 17, 0.2));
+  transition: all 0.3s ease;
+}
+
+.bank-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(219, 0, 17, 0.3));
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(219, 0, 17, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.logout-btn:hover::before {
+  left: 100%;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(219, 0, 17, 0.3);
+}
+        /* Ajustement du contenu pour le header sticky */
+        .history-container {
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0.75rem 1rem;
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .disconnect-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Header BNP Paribas -->
+  <header class="header">
+    <div class="header-title">
+      <img src="assets/images/logo.png" alt="HSBC France Logo" class="bank-logo">
+    </div>
+    <div class="user-menu">
+      <button class="logout-btn" onclick="deconnexion()">
+        <i class="fas fa-sign-out-alt"></i>
+        Déconnexion
+      </button>
+    </div>
+</header>
+
+    <!-- Contenu principal -->
+    <div class="history-container">
+        <!-- En-tête avec statistiques -->
+        <div class="history-header">
+            <h1 class="history-title">
+                <i class="fas fa-history"></i>
+                Historique des Transactions
+            </h1>
+            
+            <div class="history-stats">
+                <div class="stat-card">
+                    <div class="stat-value positive" id="totalCredits">174 700,00 CHF</div>
+                    <div class="stat-label">Total Crédits</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value negative" id="totalDebits">-€0</div>
+                    <div class="stat-label">Total Débits</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value neutral" id="totalTransactions">0</div>
+                    <div class="stat-label">Transactions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value neutral" id="averageAmount">€0</div>
+                    <div class="stat-label">Montant Moyen</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="history-filters">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Type de transaction</label>
+                    <select class="filter-select" id="typeFilter">
+                        <option value="">Tous les types</option>
+                        <option value="virement">Virement</option>
+                        <option value="prelevement">Prélèvement</option>
+                        <option value="carte">Paiement carte</option>
+                        <option value="cheque">Chèque</option>
+                        <option value="especes">Espèces</option>
+                        <option value="salaire">Salaire</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Période</label>
+                    <select class="filter-select" id="periodFilter">
+                        <option value="">Toutes les périodes</option>
+                        <option value="7">7 derniers jours</option>
+                        <option value="30">30 derniers jours</option>
+                        <option value="90">3 derniers mois</option>
+                        <option value="365">Dernière année</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Montant minimum</label>
+                    <input type="number" class="filter-input" id="minAmount" placeholder="0.00" step="0.01">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Montant maximum</label>
+                    <input type="number" class="filter-input" id="maxAmount" placeholder="10000.00" step="0.01">
+                </div>
+                
+                <div class="filter-group">
+                    <button class="filter-button" onclick="applyFilters()">
+                        <i class="fas fa-filter"></i>
+                        Filtrer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des transactions -->
+        <div class="transactions-list">
+            <div class="transactions-header">
+                <h3>Vos transactions récentes</h3>
+                <div class="transactions-count" id="transactionCount">0 transactions</div>
+            </div>
+            
+            <div id="transactionsContainer">
+                <!-- Les transactions seront générées par JavaScript -->
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination générée par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration et données
+        let allTransactions = [{
+            type: 'virement',
+            amount: 174700,
+            currency: 'CHF',
+            merchant: '',
+            date: new Date(2026, 9, 5, 14, 30),
+            status: 'demo',
+            demo: true
+        }];
+        let filteredTransactions = [];
+        let currentPage = 1;
+        const transactionsPerPage = 10;
+
+        // Types de transactions avec icônes
+        const transactionTypes = {
+            virement: { icon: 'fas fa-exchange-alt', label: 'Virement reçu' },
+            prelevement: { icon: 'fas fa-university', label: 'Prélèvement' },
+            carte: { icon: 'fas fa-credit-card', label: 'Paiement carte' },
+            cheque: { icon: 'fas fa-money-check', label: 'Chèque' },
+            especes: { icon: 'fas fa-coins', label: 'Espèces' },
+            salaire: { icon: 'fas fa-briefcase', label: 'Salaire' }
+        };
+
+        // Formatage des montants
+        function formatAmount(amount, currency = 'EUR') {
+            return new Intl.NumberFormat('fr-FR', {
+                style: 'currency',
+                currency
+            }).format(Math.abs(amount));
+        }
+
+        // Formatage des dates
+        function formatDate(date) {
+            return new Intl.DateTimeFormat('fr-FR', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }).format(date);
+        }
+
+        // Calcul des statistiques
+        function updateStats(transactions) {
+            const credits = transactions.filter(t => t.amount > 0);
+            const debits = transactions.filter(t => t.amount < 0);
+            
+            const totalCredits = credits.reduce((sum, t) => sum + t.amount, 0);
+            const totalDebits = debits.reduce((sum, t) => sum + Math.abs(t.amount), 0);
+            const totalTransactions = transactions.length;
+            const averageAmount = totalTransactions > 0 ? 
+                transactions.reduce((sum, t) => sum + Math.abs(t.amount), 0) / totalTransactions : 0;
+            const currency = transactions[0]?.currency || 'EUR';
+
+            document.getElementById('totalCredits').textContent = '174 700,00 CHF';
+            document.getElementById('totalDebits').textContent = `-${formatAmount(totalDebits, currency)}`;
+            document.getElementById('totalTransactions').textContent = totalTransactions;
+            document.getElementById('averageAmount').textContent = formatAmount(averageAmount, currency);
+        }
+
+        // Affichage des transactions
+        function displayTransactions(page = 1) {
+            const startIndex = (page - 1) * transactionsPerPage;
+            const endIndex = startIndex + transactionsPerPage;
+            const transactionsToShow = filteredTransactions.slice(startIndex, endIndex);
+            
+            const container = document.getElementById('transactionsContainer');
+            
+            if (transactionsToShow.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>Aucune transaction trouvée</p>
+                    </div>
+                `;
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            container.innerHTML = transactionsToShow.map(transaction => {
+                const typeInfo = transactionTypes[transaction.type];
+                const isCredit = transaction.amount > 0;
+                
+                return `
+                    <div class="transaction-card ${isCredit ? 'credit' : 'debit'}">
+                        <div class="transaction-main">
+                            <div class="transaction-info">
+                                <div class="transaction-type">
+                                    <div class="transaction-icon ${isCredit ? 'credit' : 'debit'}">
+                                        <i class="${typeInfo.icon}"></i>
+                                    </div>
+                                    <div>
+                                        <div>${typeInfo.label}</div>
+                                        ${transaction.demo ? '<div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">INTERPOL</div>' : transaction.merchant ? `<div style="font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);">${transaction.merchant}</div>` : ''}
+                                    </div>
+                                </div>
+                                ${transaction.reference ? `<div class="transaction-reference">Réf: ${transaction.reference}</div>` : ''}
+                                <div class="transaction-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    ${formatDate(transaction.date)}
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: right;">
+                                <div class="transaction-amount ${isCredit ? 'credit' : 'debit'}">
+                                    ${isCredit ? '+' : '-'}${formatAmount(transaction.amount, transaction.currency || 'EUR')}
+                                </div>
+                                <div class="transaction-status ${transaction.status}">
+                                    ${transaction.demo ? 'INTERPOL' : transaction.status === 'completed' ? 'Effectué' : 'En cours'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            updatePagination();
+        }
+
+        // Mise à jour de la pagination
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Bouton précédent
+            paginationHTML += `
+                <button class="pagination-btn" onclick="changePage(${currentPage - 1})" 
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            // Numéros de pages
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    paginationHTML += `
+                        <button class="pagination-btn ${i === currentPage ? 'active' : ''}" 
+                                onclick="changePage(${i})">
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    paginationHTML += '<span>...</span>';
+                }
+            }
+            
+            // Bouton suivant
+            paginationHTML += `
+                <button class="pagination-btn" onclick="changePage(${currentPage + 1})" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Changement de page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayTransactions(currentPage);
+            }
+        }
+
+        // Application des filtres
+        function applyFilters() {
+            const typeFilter = document.getElementById('typeFilter').value;
+            const periodFilter = document.getElementById('periodFilter').value;
+            const minAmount = parseFloat(document.getElementById('minAmount').value) || 0;
+            const maxAmount = parseFloat(document.getElementById('maxAmount').value) || Infinity;
+            
+            filteredTransactions = allTransactions.filter(transaction => {
+                // Filtre par type
+                if (typeFilter && transaction.type !== typeFilter) return false;
+                
+                // Filtre par période
+                if (periodFilter) {
+                    const daysDiff = (new Date() - transaction.date) / (1000 * 60 * 60 * 24);
+                    if (daysDiff > parseInt(periodFilter)) return false;
+                }
+                
+                // Filtre par montant
+                const absAmount = Math.abs(transaction.amount);
+                if (absAmount < minAmount || absAmount > maxAmount) return false;
+                
+                return true;
+            });
+            
+            currentPage = 1;
+            updateStats(filteredTransactions);
+            displayTransactions(currentPage);
+            updateTransactionCount();
+            
+            // Animation de confirmation
+            Swal.fire({
+                icon: 'success',
+                title: 'Filtres appliqués',
+                text: `${filteredTransactions.length} transaction(s) trouvée(s)`,
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }
+
+        // Mise à jour du compteur de transactions
+        function updateTransactionCount() {
+            const count = filteredTransactions.length;
+            document.getElementById('transactionCount').textContent = 
+                `${count} transaction${count > 1 ? 's' : ''}`;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            filteredTransactions = [...allTransactions];
+            
+            updateStats(filteredTransactions);
+            displayTransactions(1);
+            updateTransactionCount();
+            
+            // Animation d'entrée
+            setTimeout(() => {
+                document.querySelectorAll('.history-header, .history-filters, .transactions-list').forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 100);
+        });
+
+        // Fonction de déconnexion
+        function deconnexion() {
+            Swal.fire({
+                title: 'Confirmer la déconnexion',
+                text: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Oui, déconnecter',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Déconnexion en cours...',
+                        text: 'Veuillez patienter',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = 'connexion.html';
+                    });
+                }
+            });
+        }
+    </script>
+
+    <!-- Menu de navigation -->
+    <nav class="nav-menu">
+        <a href="solde.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Comptes</span>
+        </a>
+        <a href="virement.html" class="nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Virements</span>
+        </a>
+        <a href="historique.html" class="nav-item active">
+            <i class="fas fa-history"></i>
+            <span>Historique</span>
+        </a>
+        <a href="cartes.html" class="nav-item">
+            <i class="fas fa-credit-card"></i>
+            <span>Cartes</span>
+        </a>
+        <a href="rib.html" class="nav-item">
+            <i class="fas fa-file-alt"></i>
+            <span>RIB</span>
+        </a>
+    </nav>
+</body>
+
+<!-- Mirrored from e-econnexion.online/1dfbc1HSBCf3eacf/historique.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Dec 2025 17:51:12 GMT -->
+</html>
